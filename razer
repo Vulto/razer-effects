@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+clear
+
+echo "Razer effects
+      
+      static
+      breath "
+
+path="/sys/bus/hid/drivers/razerkbd/0003:1532:0209.0003"
+
+echo "Choose your effect"
+
+while :
+do
+  read INPUT_STRING
+  case $INPUT_STRING in
+   static)
+      color="$(printf '\\x%X' `zenity --color-selection | tr -d 'rgb()' | tr -s ',' ' '`)"
+      echo -n -e $color > $path/matrix_effect_static
+      ;;
+   breath)
+      echo -n "1" > $path/matrix_effect_breath # random mode
+      # SINGLE MODE
+      # DUAL MODE
+      ;;
+   exit)
+      exit
+      ;;
+   *)
+      echo "unknow effect"
+      ;;
+  esac
+done
