@@ -4,9 +4,10 @@ clear
 echo "Razer effects
       
       static
-      breath "
+      breath_random
+		breath_color"
 
-path="/sys/bus/hid/drivers/razerkbd/0003:1532:0209.0003"
+path="/sys/bus/hid/drivers/razerkbd/0003:1532:0209.0004"
 
 echo "Choose your effect"
 
@@ -17,16 +18,15 @@ while :
 	static)
 		color="$(yad --color | sed -r 's/#//; s/(..)/\\x\1/g')"
 		echo -n -e $color > $path/matrix_effect_static
-		clear
       ;;
-   breath)
-      echo -n "1" > $path/matrix_effect_breath # random mode
-      # SINGLE MODE
-      # DUAL MODE
-      clear
+   breath_random)
+      echo -n "1" > $path/matrix_effect_breath
       ;;
+	breath_color)
+		echo -n -e $color > $path/matrix_effect_breath
+		;;
    exit)
-      clear
+   clear
 	exit
       ;;
    *)
